@@ -1,5 +1,10 @@
 <template>
   <div class="container">
+    <section class="hero" v-if="dataNeedsSeeds">
+      <div class="hero-body center">
+        <button class="button" @click="seedDatabase()">Click here to seed database</button>
+      </div>
+    </section>
     <section class="section center">
       <div class="columns is-mobile is-multiline" id="main-column">
         <div
@@ -51,11 +56,11 @@ export default {
     getUserGalleries() {
       return this.$store.getters.getUser.galleries;
     },
-    initUser() {
-      if (this.getUser === "") {
-        this.createUser();
-      }
-    },
+    // initUser() {
+    //   if (this.getUser === "") {
+    //     this.createUser();
+    //   }
+    // },
     getSeedGalleries() {
       return this.$store.getters.getSeedUser;
     },
@@ -114,12 +119,13 @@ export default {
           user: this.getUser._id
         });
       }
+    },
+    async seedDatabase() {
+      this.createUser();
+      this.incrementCounter();
+      this.getUserData();
+      this.getSeedData();
     }
-    // async seedDatabase() {
-    //   this.incrementCounter();
-    //   this.fetchGalleries();
-    //   this.getUserData();
-    // }
   }
 };
 </script>
