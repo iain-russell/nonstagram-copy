@@ -8,6 +8,8 @@ import store from "./store/index";
 
 import GalleryList from "./components/GalleryList";
 import About from "./components/About";
+import TempRoute from "./components/TempRoute";
+import CreateUser from "./components/CreateUser";
 
 Vue.config.productionTip = false;
 
@@ -20,7 +22,10 @@ require("./assets/main.scss");
 export const router = new VueRouter({
   mode: "history",
   routes: [
-    { path: "/", component: GalleryList },
+    { path: "/", component: TempRoute },
+    { path: "/galleries", component: GalleryList },
+    { path: "/temp", component: TempRoute },
+    { path: "/login", component: CreateUser },
     { path: "/about", component: About }
   ]
 });

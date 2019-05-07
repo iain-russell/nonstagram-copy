@@ -3,7 +3,7 @@
     <!-- .brand -->
     <div class="navbar-brand">
       <div class="navbar-item">
-        <router-link to="/">
+        <router-link to="/galleries">
           <p class="subtitle" @click="resetGallery">
             <i class="fas fa-camera"></i>
             Nonstagram
@@ -27,10 +27,18 @@
 
     <div class="navbar-menu" :class="{ 'is-active': showNav }">
       <div class="navbar-end">
-
+        <!-- .galleries -->
+        <div class="right">
+          <div class="navbar-item" v-if="getUser">
+            <router-link to="/galleries">
+              <a class="button" @click="toggleNavbar()">Galleries</a>
+            </router-link>
+          </div>
+        </div>
+        <!-- /.galleries -->
         <!-- .upload-images -->
         <div class="right">
-          <div class="navbar-item">
+          <div class="navbar-item" v-if="getUser">
             <button class="button" @click="openUploadModal()">Upload</button>
           </div>
         </div>
@@ -46,12 +54,22 @@
         </div>
         <!-- /.about -->
 
+        <!-- .about -->
+        <div class="right">
+          <div class="navbar-item" v-if="!getUser">
+            <router-link to="/login">
+              <a class="button" @click="toggleNavbar()">Log in </a>
+            </router-link>
+          </div>
+        </div>
+        <!-- /.about -->
+
         <!-- .logout -->
         <div class="right">
-          <div class="navbar-item" v-if="isLoggedIn">
+          <div class="navbar-item" v-if="getUser">
             <router-link to="/">
-              <button v-if="isLoggedIn" class="button" @click="submitSignOut(getUser)">
-                Logout/Delete User
+              <button class="button" @click="submitLogout()">
+                Logout
               </button>
             </router-link>
           </div>
@@ -78,6 +96,7 @@ export default {
   computed: mapGetters(["isLoggedIn", "isGallerySelected", "getUser"]),
   methods: {
     ...mapActions([
+      "logout",
       "signOut",
       "resetGallery",
       "resetGalleries",
@@ -90,14 +109,20 @@ export default {
       location.reload();
     },
     openUploadModal() {
+      router.push("/temp");
       this.toggleNavbar();
       this.$modal.open({
         parent: this,
         component: UploadImageModal,
         scroll: "keep",
-        hasModalCard: false,
-        props: {}
+        hasModalCard: true,
+        props: {},
+        onClose: router.push("galleries")
       });
+    },
+    submitLogout() {
+      this.logout();
+      this.toggleNavbar();
     },
     toggleNavbar() {
       this.showNav = !this.showNav;
@@ -115,7 +140,7 @@ a {
   padding-right: 10px;
 }
 .subtitle {
-  font-family: 'Karla', sans-serif;
+  font-family: "Karla", sans-serif;
 }
 @media (min-width: 1024px) {
   .navbar {

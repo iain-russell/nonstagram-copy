@@ -23,6 +23,7 @@
 
 <script>
 import axios from "axios";
+import { router } from "../main.js";
 
 import { mapGetters, mapActions } from "vuex";
 
@@ -62,6 +63,7 @@ export default {
         position: "is-bottom"
       });
       this.incrementCounter();
+      router.push("/galleries");
     }
   }
 };

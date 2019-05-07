@@ -1,10 +1,5 @@
 <template>
   <div class="container">
-    <section class="hero" v-if="dataNeedsSeeds">
-      <div class="hero-body center">
-        <button class="button" @click="seedDatabase()">Click here to seed database</button>
-      </div>
-    </section>
     <section class="section center">
       <div class="columns is-mobile is-multiline" id="main-column">
         <div
@@ -41,6 +36,7 @@
 <script>
 import axios from "axios";
 import CloseUp from "./CloseUp";
+import { router } from "../main.js";
 
 import { mapActions, mapGetters } from "vuex";
 
@@ -50,7 +46,10 @@ export default {
     return {};
   },
   created: function() {
-    this.getSeedData();
+    this.getUserData();
+    setTimeout(() => {
+      this.getUserData();
+    }, 3500);
   },
   computed: {
     getUserGalleries() {
@@ -61,16 +60,16 @@ export default {
     //     this.createUser();
     //   }
     // },
-    getSeedGalleries() {
-      return this.$store.getters.getSeedUser;
-    },
-    dataNeedsSeeds() {
-      if (this.getUser === "") {
-        return true;
-      } else {
-        return false;
-      }
-    },
+    // getSeedGalleries() {
+    //   return this.$store.getters.getSeedUser;
+    // },
+    // dataNeedsSeeds() {
+    //   if (this.getUser === "") {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // },
     // compareGalleries() {
     //   if (
     //     !this.dataNeedsSeeds &&
@@ -87,11 +86,16 @@ export default {
   watch: {
     getCounter() {
       this.getUserData();
-      this.getSeedData();
       setTimeout(() => {
         this.getUserData();
-        this.getSeedData();
+        // }, 3500);
+      });
+      setTimeout(() => {
+        this.getUserData();
       }, 3500);
+      setTimeout(() => {
+        this.getUserData();
+      }, 5000);
     }
   },
   methods: {
@@ -101,13 +105,15 @@ export default {
       "getUserData",
       "incrementCounter"
     ]),
-    openCloseUp(gallery, index) {
+    async openCloseUp(gallery, index) {
+      router.push("/temp");
       this.$modal.open({
         parent: this,
         component: CloseUp,
         scroll: "keep",
         hasModalCard: false,
-        props: { gallery: gallery }
+        props: { gallery: gallery },
+        onCancel: router.push("/galleries")
       });
     },
     async deleteGallery(gallery) {
@@ -121,11 +127,16 @@ export default {
       }
     },
     async seedDatabase() {
-      this.createUser();
-      this.incrementCounter();
-      this.getUserData();
-      this.getSeedData();
+      // await this.createUser();
+      // await this.incrementCounter();
+      // this.getUserData();
+      // this.getSeedData();
     }
+    // async initUser() {
+    //   const user = await this.createUser();
+    //   await console.log(user);
+    //
+    // }
   }
 };
 </script>
