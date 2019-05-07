@@ -161,7 +161,7 @@ export default {
     ...mapGetters(["getUser"]),
   },
   methods: {
-    ...mapActions(["incrementCounter", "fetchGalleries", "getUserData"]),
+    ...mapActions(["incrementCounter"]),
     shiftForNewLine() {
       if (!event.shiftKey) {
         this.addComment();

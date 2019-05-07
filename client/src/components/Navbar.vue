@@ -4,7 +4,7 @@
     <div class="navbar-brand">
       <div class="navbar-item">
         <router-link to="/galleries">
-          <p class="subtitle" @click="resetGallery">
+          <p class="subtitle">
             <i class="fas fa-camera"></i>
             Nonstagram
           </p>
@@ -68,7 +68,7 @@
         <div class="right">
           <div class="navbar-item" v-if="getUser">
             <router-link to="/">
-              <button class="button" @click="submitLogout()">
+              <button class="button" @click="logout">
                 Logout
               </button>
             </router-link>
@@ -97,17 +97,7 @@ export default {
   methods: {
     ...mapActions([
       "logout",
-      "signOut",
-      "resetGallery",
-      "resetGalleries",
-      "fetchGalleries",
-      "toggleUploader"
     ]),
-    submitSignOut(user) {
-      this.signOut(user);
-      router.push("/");
-      location.reload();
-    },
     openUploadModal() {
       router.push("/temp");
       this.toggleNavbar();
@@ -119,10 +109,6 @@ export default {
         props: {},
         onClose: router.push("galleries")
       });
-    },
-    submitLogout() {
-      this.logout();
-      this.toggleNavbar();
     },
     toggleNavbar() {
       this.showNav = !this.showNav;

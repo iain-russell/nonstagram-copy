@@ -76,7 +76,6 @@ module.exports = {
           }
         })
         .select("-password");
-      await console.log(user);
       res.status(200).json(user);
     } catch (err) {
       next(err);

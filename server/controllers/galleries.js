@@ -78,7 +78,7 @@ module.exports = {
             key: file.transforms[0].key,
             name: file.originalname
           });
-          console.log(newImage);
+          // console.log(newImage);
           const image = newImage.save();
           gallery.images.push(newImage);
           imageId.push(newImage._id);
@@ -96,26 +96,20 @@ module.exports = {
     try {
       const user = await User.findById(req.body.user);
       const gallery = await Gallery.findById(req.params.galleryId);
-      const newComment = await new Comment({
+      const commentFullData = await new Comment({
         content: req.body.content,
         gallery: gallery,
         user: user,
         created_at: Date.now()
-      });
-      await newComment.save();
-      gallery.comments.push(newComment);
-      user.comments.push(newComment);
-      await gallery.save();
-      await user.save();
-      // const fullGallery = await Gallery.findOneAndUpdate(
-      //   { _id: req.params.galleryId },
-      //   { $push: { comments: newComment } }
-      // );
-      const commentFullData = await Comment.findById(newComment._id).populate({
+      }).populate({
         path: "user",
         select: "-password"
       });
-      console.log(commentFullData);
+      await commentFullData.save();
+      gallery.comments.push(commentFullData);
+      user.comments.push(commentFullData);
+      await gallery.save();
+      await user.save();
       return res.status(200).json({ commentFullData });
     } catch (err) {
       next(err);

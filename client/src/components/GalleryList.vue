@@ -5,7 +5,7 @@
         <div
           class="column is-4"
           id="image-box"
-          v-for="(gallery, index) in getUserGalleries"
+          v-for="(gallery, index) in getUser.galleries"
           v-bind:key="gallery._id"
           v-if="gallery.visible"
           @mouseover="gallery.deleteVisible = true"
@@ -52,44 +52,10 @@ export default {
     }, 3500);
   },
   computed: {
-    getUserGalleries() {
-      return this.$store.getters.getUser.galleries;
-    },
-    // initUser() {
-    //   if (this.getUser === "") {
-    //     this.createUser();
-    //   }
-    // },
-    // getSeedGalleries() {
-    //   return this.$store.getters.getSeedUser;
-    // },
-    // dataNeedsSeeds() {
-    //   if (this.getUser === "") {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // },
-    // compareGalleries() {
-    //   if (
-    //     !this.dataNeedsSeeds &&
-    //     this.reverseGalleries.length !=
-    //       this.$store.getters.getUser.galleries.length
-    //   ) {
-    //     this.fetchGalleries();
-    //     this.getUserData();
-    //     this.incrementCounter();
-    //   }
-    // },
-    ...mapGetters(["getGalleries", "getCounter", "getUser", "getSeedUser"])
+    ...mapGetters(["getCounter", "getUser"])
   },
   watch: {
     getCounter() {
-      this.getUserData();
-      setTimeout(() => {
-        this.getUserData();
-        // }, 3500);
-      });
       setTimeout(() => {
         this.getUserData();
       }, 3500);
@@ -100,8 +66,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getSeedData",
-      "createUser",
       "getUserData",
       "incrementCounter"
     ]),
@@ -126,17 +90,6 @@ export default {
         });
       }
     },
-    async seedDatabase() {
-      // await this.createUser();
-      // await this.incrementCounter();
-      // this.getUserData();
-      // this.getSeedData();
-    }
-    // async initUser() {
-    //   const user = await this.createUser();
-    //   await console.log(user);
-    //
-    // }
   }
 };
 </script>

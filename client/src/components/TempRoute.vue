@@ -2,11 +2,8 @@
   <div class="container">
     <section v-if="!getUser" class="hero" id="hero-section">
       <div class="hero-body center">
-        <h1 v-if="!isLoggingIn" class="has-text-dark title">
+        <h1 class="has-text-dark title">
           Log in to get started!
-        </h1>
-        <h1 v-if="isLoggingIn" class="has-text-dark title">
-          Generating and uploading images for nonstagram!
         </h1>
       </div>
     </section>
